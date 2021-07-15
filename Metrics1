@@ -1,93 +1,41 @@
-var sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets()
-var numOpenTickets = 0
-var numClosedTickets = 0
+const sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets()
+const metricsSheet = sheets[1]
+var i
 
-//[same day, under 24, 24 to 48, 48+]
-var responseTimes = [0,0,0,0]
-
-//[satisfied, moderately satisfied, unsatisfied, unknown]
-var satisfactionLevels = [0,0,0,0]
-
-var issues_followingInstructions = 0
-var issues_languageBarrier = 0
-
-var impact_wouldHaveDisconnected = 0
-var impact_wouldHaveContactedGrantee = 0
-var impact_intereferedWithWork = 0
-
-function update() {
-  for(var i = 3; i < sheets.length; i++) {
-    sheets[i].getRange('B1').setValue(sheets[i].getSheetName())
-    //OPEN or CLOSED
-    var status = new String(sheets[i].getRange('B12').getValue())
-    console.log("Status: " + status);
-    if (status=='Open') {
-      numOpenTickets++
-    } else {
-      numClosedTickets++
-    }
-    //Response Time
-    var responseTime = new String(sheets[i].getRange('B10').getValue())
-    if (responseTime=="Same Day")  {
-      responseTimes[0]++
-    } else if (responseTime=="<= 24 Hours") {
-      responseTimes[1]++
-    } else if (responseTime=="24-48 Hours") {
-      responseTimes[2]++
-    } else if (responseTime=="Over 48 Hours") {
-      responseTimes[3]++
-    }
-    //Satisfaction Level
-    var satisfactionLevel = new String(sheets[i].getRange('B16').getValue())
-    if (satisfactionLevel=="Satisfied") {
-      satisfactionLevels[0]++
-    } else if (satisfactionLevel=="Moderately Satisfied") {
-      satisfactionLevels[1]++
-    } else if (satisfactionLevel=="Unsatisfied") {
-      satisfactionLevels[2]++
-    } else if (satisfactionLevel=="Not Sure") {
-      satisfactionLevels[3]++
-    }
-    //Communication Issues
-    issues_followingInstructions+=sheets[i].getRange('A19').getValue()
-    issues_languageBarrier+=sheets[i].getRange('A20').getValue()
-    //Additional Metrics
-    impact_wouldHaveDisconnected+=sheets[i].getRange('A23').getValue()
-    impact_wouldHaveContactedGrantee+=sheets[i].getRange('A24').getValue()
-    impact_intereferedWithWork+=sheets[i].getRange('A25').getValue()
-
-    //debug
-    console.log("Open: " + numOpenTickets)
-    console.log("Closed: " + numClosedTickets)
-
-    display()
+function copyAll() {
+  for (i = 4; i < sheets.length; i++) {
+    copy(i)
   }
 }
 
-function display() {
-  sheets[1].getRange('B2').setValue(numberOfTickets())
-  sheets[1].getRange('B5').setValue(responseTimes[0])
-  sheets[1].getRange('B6').setValue(responseTimes[1])
-  sheets[1].getRange('B7').setValue(responseTimes[2])
-  sheets[1].getRange('B8').setValue(responseTimes[3])
-  sheets[1].getRange('B11').setValue(numOpenTickets)
-  sheets[1].getRange('B12').setValue(numClosedTickets)
-  sheets[1].getRange('B15').setValue(satisfactionLevels[0])
-  sheets[1].getRange('B16').setValue(satisfactionLevels[1])
-  sheets[1].getRange('B17').setValue(satisfactionLevels[2])
-  sheets[1].getRange('B18').setValue(satisfactionLevels[3])
-  sheets[1].getRange('B21').setValue(issues_followingInstructions)
-  sheets[1].getRange('B22').setValue(issues_languageBarrier)
-  sheets[1].getRange('B25').setValue(impact_wouldHaveDisconnected)
-  sheets[1].getRange('B26').setValue(impact_wouldHaveContactedGrantee)
-  sheets[1].getRange('B27').setValue(impact_intereferedWithWork)
+function copy(i) {
+  //ranges within the metrics sheet
+  const ticketName_range = 'A' + (i-2)
+  const reportDate_range = 'B' + (i-2)
+  const familyID_range = 'C' + (i-2)
+  //const language_range = 'D' + (i-2)
+  const reportedVia_range = 'D' + (i-2)
+  const respTime_range = 'E' + (i-2)
+  const status_range = 'F' + (i-2)
+  const openCloseStatus_range = 'G' + (i-2)
+  const satisfaction_range = 'H' + (i-2)
+  const resolutionDate_range = 'I' + (i-2)
+  metricsSheet.getRange(ticketName_range).setValue(sheets[i].getRange('B2').getValue())
+  metricsSheet.getRange(reportDate_range).setValue(sheets[i].getRange('B4').getValue())
+  metricsSheet.getRange(familyID_range).setValue(sheets[i].getRange('B9').getValue())
+  //metricsSheet.getRange(language_range).setValue(sheets[i].getRange('B10').getValue())
+  metricsSheet.getRange(reportedVia_range).setValue(sheets[i].getRange('B8').getValue())
+  metricsSheet.getRange(respTime_range).setValue(sheets[i].getRange('B14').getValue())
+  metricsSheet.getRange(status_range).setValue(sheets[i].getRange('B16').getValue())
+  metricsSheet.getRange(openCloseStatus_range).setValue(sheets[i].getRange('B17').getValue())
+  metricsSheet.getRange(satisfaction_range).setValue(sheets[i].getRange('B20').getValue())
+  metricsSheet.getRange(resolutionDate_range).setValue(sheets[i].getRange('B6').getValue())
 }
 
-//for entry on google sheets
+//for manual entry on google sheets
 function sheetName() {
   return SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getName()
 }
-
 function numberOfTickets() {
-  return sheets.length - 3
+  return sheets.length - 4
 }
