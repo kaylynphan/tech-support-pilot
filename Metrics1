@@ -1,35 +1,58 @@
-const sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets()
-const metricsSheet = sheets[1]
+const sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
+const metricsSheet = sheets[1];
 var i
 
 function copyAll() {
   for (i = 4; i < sheets.length; i++) {
-    copy(i)
+    copy(i);
   }
 }
 
 function copy(i) {
   //ranges within the metrics sheet
   const ticketName_range = 'A' + (i-2)
-  const reportDate_range = 'B' + (i-2)
-  const familyID_range = 'C' + (i-2)
-  //const language_range = 'D' + (i-2)
-  const reportedVia_range = 'D' + (i-2)
-  const respTime_range = 'E' + (i-2)
-  const status_range = 'F' + (i-2)
-  const openCloseStatus_range = 'G' + (i-2)
-  const satisfaction_range = 'H' + (i-2)
-  const resolutionDate_range = 'I' + (i-2)
-  metricsSheet.getRange(ticketName_range).setValue(sheets[i].getRange('B2').getValue())
-  metricsSheet.getRange(reportDate_range).setValue(sheets[i].getRange('B4').getValue())
-  metricsSheet.getRange(familyID_range).setValue(sheets[i].getRange('B9').getValue())
-  //metricsSheet.getRange(language_range).setValue(sheets[i].getRange('B10').getValue())
-  metricsSheet.getRange(reportedVia_range).setValue(sheets[i].getRange('B8').getValue())
-  metricsSheet.getRange(respTime_range).setValue(sheets[i].getRange('B14').getValue())
-  metricsSheet.getRange(status_range).setValue(sheets[i].getRange('B16').getValue())
-  metricsSheet.getRange(openCloseStatus_range).setValue(sheets[i].getRange('B17').getValue())
-  metricsSheet.getRange(satisfaction_range).setValue(sheets[i].getRange('B20').getValue())
-  metricsSheet.getRange(resolutionDate_range).setValue(sheets[i].getRange('B6').getValue())
+  const reportTime_range = 'B' + (i-2)
+  const responseTime_range = 'C' + (i-2)
+  const resolutionTime_range = 'D' + (i-2)
+  const timeToRespond_range = 'E' + (i-2)
+  const timeToResolve_range = 'F' + (i-2)
+  const familyID_range = 'G' + (i-2)
+  const reportedVia_range = 'H' + (i-2)
+  const hardwareIssue_range = 'I' + (i-2)
+  const softwareIssue_range = 'J' + (i-2)
+  const networkIssue_range = 'K' + (i-2);
+  const otherIssue_range = 'L' + (i-2);
+  const status_range = 'M' + (i-2);
+  const openCloseStatus_range = 'N' + (i-2);
+  const satisfactionLevel_range = 'O' + (i-2);
+  const issuesFollowingInstructions_range = 'P' + (i-2);
+  const languageBarrier_range = 'Q' + (i-2);
+  const otherCommunicationIssues_range = 'R' + (i-2);
+  const wouldHaveDisconnected_range = 'S' + (i-2);
+  const wouldHaveContactedGrantee_range = 'T' + (i-2);
+  const interferedWithLearningWork_range = 'U' + (i-2);
+
+  metricsSheet.getRange(ticketName_range).setValue(sheets[i].getRange('B2').getValue());
+  metricsSheet.getRange(reportTime_range).setValue(sheets[i].getRange('B4').getValue());
+  metricsSheet.getRange(responseTime_range).setValue(sheets[i].getRange('B5').getValue());
+  metricsSheet.getRange(resolutionTime_range).setValue(sheets[i].getRange('B6').getValue());
+  metricsSheet.getRange(timeToRespond_range).setValue(sheets[i].getRange('B7').getValue());
+  metricsSheet.getRange(timeToResolve_range).setValue(sheets[i].getRange('B8').getValue());
+  metricsSheet.getRange(familyID_range).setValue(sheets[i].getRange('B10').getValue());
+  metricsSheet.getRange(reportedVia_range).setValue(sheets[i].getRange('B9').getValue());
+  metricsSheet.getRange(hardwareIssue_range).setValue(sheets[i].getRange('D8').getValue());
+  metricsSheet.getRange(softwareIssue_range).setValue(sheets[i].getRange('D9').getValue());
+  metricsSheet.getRange(networkIssue_range).setValue(sheets[i].getRange('D10').getValue());
+  metricsSheet.getRange(otherIssue_range).setValue(sheets[i].getRange('D11').getValue());
+  metricsSheet.getRange(status_range).setValue(sheets[i].getRange('B16').getValue());
+  metricsSheet.getRange(openCloseStatus_range).setValue(sheets[i].getRange('B17').getValue());
+  metricsSheet.getRange(satisfactionLevel_range).setValue(sheets[i].getRange('B20').getValue());
+  metricsSheet.getRange(issuesFollowingInstructions_range).setValue(sheets[i].getRange('A24').getValue());
+  metricsSheet.getRange(languageBarrier_range).setValue(sheets[i].getRange('A25').getValue());
+  metricsSheet.getRange(otherCommunicationIssues_range).setValue(sheets[i].getRange('A26').getValue());
+  metricsSheet.getRange(wouldHaveDisconnected_range).setValue(sheets[i].getRange('A29').getValue());
+  metricsSheet.getRange(wouldHaveContactedGrantee_range).setValue(sheets[i].getRange('A30').getValue());
+  metricsSheet.getRange(interferedWithLearningWork_range).setValue(sheets[i].getRange('A31').getValue());
 }
 
 //for manual entry on google sheets
